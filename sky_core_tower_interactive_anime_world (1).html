@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Core Tower – Anime World</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#0b1026, #1b2b4f);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      opacity: 0.85;
+      margin-top: 10px;
+    }
+
+    .tower {
+      position: relative;
+      width: 300px;
+      margin: 60px auto;
+      display: flex;
+      flex-direction: column-reverse;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(0, 200, 255, 0.4);
+    }
+
+    .level {
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .level:hover {
+      background: rgba(0, 200, 255, 0.2);
+    }
+
+    .level[data-type="core"] { background: #00c8ff33; }
+    .level[data-type="garden"] { background: #3cff9e33; }
+    .level[data-type="sanctum"] { background: #ffd70033; }
+    .level[data-type="ancient"] { background: #ff6b6b33; }
+
+    .info {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 12px;
+      min-height: 120px;
+      transition: all 0.3s ease;
+    }
+
+    .info h2 {
+      margin-bottom: 10px;
+      color: #00c8ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.85rem;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SKY CORE TOWER</h1>
+    <p>Tháp Lõi Trời – Anime World / Game Map Concept</p>
+  </header>
+
+  <section class="tower">
+    <div class="level" data-type="ancient" data-title="The Drift – Ancient Depths"
+      data-desc="Tầng cổ xưa bị chôn vùi. Nơi ký ức thế giới và quái vật bóng tối sinh ra.">
+      The Drift<br><small>Tầng Cổ Đại</small>
+    </div>
+    <div class="level" data-type="core" data-title="Core Mind Control"
+      data-desc="Trung tâm điều khiển ý thức. Quyết định vận mệnh cả thành phố Aerion.">
+      Core Mind Control<br><small>Lõi Trí Tuệ</small>
+    </div>
+    <div class="level" data-type="garden" data-title="Sky Garden"
+      data-desc="Khu vườn lơ lửng – nơi hồi phục năng lượng và gặp NPC huyền bí.">
+      Sky Garden<br><small>Hơi Thở Của Tháp</small>
+    </div>
+    <div class="level" data-type="sanctum" data-title="Sky Crown – Sanctum"
+      data-desc="Đỉnh tháp thiêng. Trận chiến cuối cùng giữa nhân vật chính và Thực Thể Lõi.">
+      Sky Crown<br><small>Thánh Điện</small>
+    </div>
+  </section>
+
+  <section class="info" id="info">
+    <h2>Chọn một tầng trong tháp</h2>
+    <p>Click vào từng tầng để khám phá lore, nhiệm vụ hoặc boss.</p>
+  </section>
+
+  <footer>
+    © 2026 Anime Worldbuilding Concept – Sky Core Tower
+  </footer>
+
+  <script>
+    const levels = document.querySelectorAll('.level');
+    const info = document.getElementById('info');
+
+    levels.forEach(level => {
+      level.addEventListener('click', () => {
+        const title = level.dataset.title;
+        const desc = level.dataset.desc;
+
+        info.innerHTML = `
+          <h2>${title}</h2>
+          <p>${desc}</p>
+        `;
+      });
+    });
+  </script>
+
+</body>
+</html>

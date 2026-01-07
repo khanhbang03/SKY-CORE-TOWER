@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sky Core Tower – Click RPG</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top, #1b2b4f, #050814);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header { text-align: center; padding: 30px; }
+    h1 { font-size: 2.6rem; letter-spacing: 2px; }
+
+    .hud {
+      max-width: 600px;
+      margin: 0 auto 20px;
+      background: rgba(0,0,0,0.5);
+      padding: 15px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .tower {
+      width: 320px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column-reverse;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 0 35px rgba(0,200,255,0.35);
+    }
+
+    .level {
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      transition: 0.3s;
+    }
+
+    .level:hover { background: rgba(0,200,255,0.25); }
+
+    .boss { background: #ff4d4d33; }
+    .rest { background: #3cff9e33; }
+    .core { background: #00c8ff33; }
+
+    .info {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background: rgba(0,0,0,0.45);
+      border-radius: 12px;
+      min-height: 150px;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 10px 18px;
+      background: #00c8ff;
+      border: none;
+      border-radius: 20px;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer { text-align: center; opacity: 0.5; padding: 20px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>SKY CORE TOWER</h1>
+  <p>Mini Click RPG – Anime World</p>
+</header>
+
+<div class="hud">
+  <div>❤️ HP: <span id="hp">100</span></div>
+  <div>⚔️ ATK: <span id="atk">10</span></div>
+  <div>✨ EXP: <span id="exp">0</span></div>
+</div>
+
+<section class="tower">
+  <div class="level boss" data-type="boss" data-hp="60" data-exp="50">
+    👑 Sky Crown – Boss
+  </div>
+  <div class="level core" data-type="core" data-hp="40" data-exp="30">
+    🧠 Core Mind
+  </div>
+  <div class="level rest" data-type="rest">
+    🌿 Sky Garden (Heal)
+  </div>
+  <div class="level boss" data-type="boss" data-hp="30" data-exp="20">
+    👹 Ancient Drift
+  </div>
+</section>
+
+<section class="info" id="info">
+  <h2>Chọn tầng để hành động</h2>
+  <p>Đánh boss – hồi máu – tích EXP – leo tháp.</p>
+</section>
+
+<footer>© 2026 Sky Core Tower – Click RPG Prototype</footer>
+
+<script>
+  let player = { hp: 100, atk: 10, exp: 0 };
+  const hpEl = document.getElementById('hp');
+  const atkEl = document.getElementById('atk');
+  const expEl = document.getElementById('exp');
+  const info = document.getElementById('info');
+
+  function updateHUD() {
+    hpEl.textContent = player.hp;
+    atkEl.textContent = player.atk;
+    expEl.textContent = player.exp;
+  }
+
+  document.querySelectorAll('.level').forEach(level => {
+    level.addEventListener('click', () => {
+      const type = level.dataset.type;
+
+      if (type === 'rest') {
+        player.hp = Math.min(100, player.hp + 30);
+        info.innerHTML = '<h2>🌿 Sky Garden</h2><p>Bạn hồi phục năng lượng (+30 HP).</p>';
+      }
+
+      if (type === 'boss' || type === 'core') {
+        let enemyHP = parseInt(level.dataset.hp);
+        let expGain = parseInt(level.dataset.exp);
+        enemyHP -= player.atk;
+        player.hp -= 10;
+
+        if (enemyHP <= 0) {
+          player.exp += expGain;
+          player.atk += 2;
+          info.innerHTML = `<h2>⚔️ Chiến thắng!</h2><p>Bạn nhận ${expGain} EXP và tăng sức mạnh.</p>`;
+          level.remove();
+        } else {
+          info.innerHTML = `<h2>⚔️ Giao chiến</h2><p>Bạn tấn công! Kẻ địch còn ${enemyHP} HP.</p>`;
+          level.dataset.hp = enemyHP;
+        }
+
+        if (player.hp <= 0) {
+          info.innerHTML = '<h2>☠️ Thất bại</h2><p>Bạn gục ngã trước tháp trời...</p>';
+          document.querySelectorAll('.level').forEach(l => l.style.pointerEvents = 'none');
+        }
+      }
+
+      updateHUD();
+    });
+  });
+
+  updateHUD();
+</script>
+
+</body>
+</html>
